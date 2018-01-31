@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Csv {
-    public static String getFinnalyLine(char character) {
+    private static String getFinallyLine(char character) {
         if (character == '<') {
             return "&lt;";
         } else if (character == '>') {
@@ -30,7 +30,6 @@ public class Csv {
             writer.println("<html>");
             writer.println("<head>");
             writer.println("<meta charset=\"utf-8\">");
-            ;
             writer.println("<title>Пример таблицы</title>");
             writer.println("</head>");
             writer.println("<body>");
@@ -58,7 +57,7 @@ public class Csv {
 
                             isLineTransfer = false;
                         } else {
-                            writer.print(getFinnalyLine(line.charAt(i)));
+                            writer.print(getFinallyLine(line.charAt(i)));
                         }
                     } else {
                         if (line.charAt(i) == ',') {
@@ -68,7 +67,7 @@ public class Csv {
                             isLineTransfer = true;
                             isInsideQuatation = true;
                         } else {
-                            writer.write(getFinnalyLine(line.charAt(i)));
+                            writer.write(getFinallyLine(line.charAt(i)));
                         }
                     }
                 }
