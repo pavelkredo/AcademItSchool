@@ -60,7 +60,7 @@ public class Range {
     }
 
     public Range[] getDifference(Range ob) {
-        if (from > ob.from && to < ob.to) {
+        if ((from > ob.from && to < ob.to) || (from == ob.from && to == ob.to)) {
             return new Range[]{};
         } else if (from > ob.to || to < ob.from) {
             return new Range[]{new Range(from, to)};

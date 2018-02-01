@@ -4,8 +4,8 @@ import ru.academits.trofimov.range.Range;
 
 public class Main {
     public static void main(String[] args) {
-        Range range1 = new Range(5, 18);
-        Range range2 = new Range(15, 23);
+        Range range1 = new Range(15, 25);
+        Range range2 = new Range(25, 37);
         System.out.println("Длина интервала равна: " + range1.getLength());
 
         double number = 22;
