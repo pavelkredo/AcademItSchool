@@ -9,7 +9,27 @@ public class Range {
         this.to = to;
     }
 
-    public double getIntervalLength() {
+    public double getFrom() {
+        return from;
+    }
+
+    public void setFrom(double from) {
+        this.from = from;
+    }
+
+    public double getTo() {
+        return to;
+    }
+
+    public void setTo(double to) {
+        this.to = to;
+    }
+
+    public void print() {
+        System.out.print("(" + from + ", " + to + ")");
+    }
+
+    public double getLength() {
         return to - from;
     }
 
@@ -17,78 +37,41 @@ public class Range {
         return number >= from && number <= to;
     }
 
-    public Range getRangeCrossing(Range ob) {
-        if (ob.from >= to || ob.to <= from) {
-            return null;
-        } else {
-            Range newRange;
+    public Range getIntersection(Range ob) {
+        double minTo = Math.min(to, ob.to);
+        double maxFrom = Math.max(from, ob.from);
 
-            if (ob.from < from) {
-                if (ob.to < to) {
-                    newRange = new Range(from, ob.to);
-                } else {
-                    newRange = new Range(from, to);
-                }
-            } else {
-                if (ob.to < to) {
-                    newRange = new Range(ob.from, ob.to);
-                } else {
-                    newRange = new Range(ob.from, to);
-                }
-            }
-
-            return newRange;
-        }
-    }
-
-    public Range[] getRangeCombination(Range ob) {
-        Range[] newRange = new Range[2];
-
-        if (to < ob.from || ob.to < from) {
-            newRange[0] = new Range(from, to);
-            newRange[1] = new Range(ob.from, ob.to);
-        } else {
-            if (from < ob.from) {
-                if (to < ob.to) {
-                    newRange[0] = new Range(from, ob.to);
-                } else {
-                    newRange[0] = new Range(from, to);
-                }
-            } else {
-                if (to < ob.to) {
-                    newRange[0] = new Range(ob.from, ob.to);
-                } else {
-                    newRange[0] = new Range(ob.from, to);
-                }
-            }
+        if (maxFrom < minTo) {
+            return new Range(maxFrom, minTo);
         }
 
-        return newRange;
+        return null;
     }
 
-    public Range[] getRangeDifference(Range ob) {
-        Range[] newRange = new Range[2];
+    public Range[] getUnion(Range ob) {
+        double minFrom = Math.min(from, ob.from);
+        double maxTo = Math.max(to, ob.to);
 
+        if (Math.min(to, ob.to) < Math.max(from, ob.from)) {
+            return new Range[]{new Range(from, to), new Range(ob.from, ob.to)};
+        }
+
+        return new Range[]{new Range(minFrom, maxTo)};
+    }
+
+    public Range[] getDifference(Range ob) {
         if (from > ob.from && to < ob.to) {
-            return null;
+            return new Range[]{};
         } else if (from > ob.to || to < ob.from) {
-            newRange[0] = new Range(from, to);
-            return newRange;
+            return new Range[]{new Range(from, to)};
         } else if (from < ob.from && to > ob.to) {
-            newRange[0] = new Range(from, ob.from);
-            newRange[1] = new Range(ob.to, to);
-        } else {
-            if (from < ob.from) {
-                newRange[0] = new Range(from, ob.from);
-            } else {
-                newRange[0] = new Range(ob.to, to);
-            }
+            return new Range[]{new Range(from, ob.from), new Range(ob.to, to)};
         }
 
-        return newRange;
-    }
-
-    public void print() {
-        System.out.print("(" + from + ", " + to + ")");
+        if (from < ob.from) {
+            return new Range[]{new Range(from, ob.from)};
+        } else {
+            return new Range[]{new Range(ob.to, to)};
+        }
     }
 }
