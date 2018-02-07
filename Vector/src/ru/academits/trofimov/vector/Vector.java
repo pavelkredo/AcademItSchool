@@ -135,7 +135,13 @@ public class Vector {
 
     @Override
     public boolean equals(Object o) {
-        if (!(this.getClass().isAssignableFrom(o.getClass()))) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
             return false;
         }
 
