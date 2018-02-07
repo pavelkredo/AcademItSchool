@@ -1,58 +1,50 @@
 package ru.academits.trofimov.vector;
 
+import java.util.Arrays;
+
 public class Vector {
-    private double[] vectorArray;
+    private double[] vector;
 
     public Vector(int n) {
-        if(n <= 0) {
+        if (n <= 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть больше 0.");
         }
 
-        vectorArray = new double[n];
+        vector = new double[n];
     }
 
     public Vector(Vector vector) {
-        this.vectorArray = vector.vectorArray;
+        this(vector.vector);
     }
 
     public Vector(double[] array) {
-        for (int i = 0; i < vectorArray.length; i++) {
-            if (i < array.length) {
-                vectorArray[i] = array[i];
-            } else {
-                vectorArray[i] = 0;
-            }
-        }
-    }
-
-    public Vector(int n, double[] array) {
-        if(n <= 0) {
+        if (array.length == 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть больше 0.");
         }
 
-        vectorArray = new double[n];
+        vector = Arrays.copyOf(array, array.length);
+    }
 
-        for (int i = 0; i < n; i++) {
-            if (i < array.length) {
-                vectorArray[i] = array[i];
-            } else {
-                vectorArray[i] = 0;
-            }
+    public Vector(int n, double[] array) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("Размерность вектора должна быть больше 0.");
         }
+
+        vector = Arrays.copyOf(array, n);
     }
 
     // получение размерности вектора
     public int getSize() {
-        return vectorArray.length;
+        return vector.length;
     }
 
     // преобразование компонент вектора в строку
     public String toString() {
         StringBuilder sb = new StringBuilder("{ ");
 
-        for (int i = 0; i < vectorArray.length; i++) {
-            sb.append(vectorArray[i]);
-            if (i < vectorArray.length - 1) {
+        for (int i = 0; i < vector.length; i++) {
+            sb.append(vector[i]);
+            if (i < vector.length - 1) {
                 sb.append(", ");
             }
         }
@@ -64,21 +56,13 @@ public class Vector {
     // сумма векторов
     public Vector getSum(Vector vector2) {
         int maxLength = Math.max(this.getSize(), vector2.getSize());
-        int minLength = Math.min(this.getSize(), vector2.getSize());
 
         if (maxLength != this.getSize()) {
-            double[] tempArray = new double[maxLength];
-            System.arraycopy(this.vectorArray, 0, tempArray, 0, minLength);
-
-            this.vectorArray = new double[maxLength];
-            for (int i = 0; i < maxLength; i++) {
-                this.vectorArray[i] = tempArray[i] + vector2.vectorArray[i];
-            }
-            return this;
+            this.vector = Arrays.copyOf(this.vector, maxLength);
         }
 
-        for (int i = 0; i < minLength; i++) {
-            this.vectorArray[i] = this.vectorArray[i] + vector2.vectorArray[i];
+        for (int i = 0; i < vector2.getSize(); i++) {
+            this.vector[i] += vector2.vector[i];
         }
         return this;
     }
@@ -86,95 +70,56 @@ public class Vector {
     // разность векторов
     public Vector getDifference(Vector vector2) {
         int maxLength = Math.max(this.getSize(), vector2.getSize());
-        int minLength = Math.min(this.getSize(), vector2.getSize());
 
         if (maxLength != this.getSize()) {
-            double[] tempArray = new double[maxLength];
-            System.arraycopy(this.vectorArray, 0, tempArray, 0, minLength);
-
-            this.vectorArray = new double[maxLength];
-            for (int i = 0; i < maxLength; i++) {
-                this.vectorArray[i] = tempArray[i] - vector2.vectorArray[i];
-            }
-            return this;
+            this.vector = Arrays.copyOf(this.vector, maxLength);
         }
 
-        for (int i = 0; i < minLength; i++) {
-            this.vectorArray[i] = this.vectorArray[i] - vector2.vectorArray[i];
+        for (int i = 0; i < vector2.getSize(); i++) {
+            this.vector[i] -= vector2.vector[i];
         }
         return this;
     }
 
     // умножение вектора на скаляр
     public Vector getMultiplication(double scalar) {
-        for (int i = 0; i < vectorArray.length; i++) {
-            vectorArray[i] = vectorArray[i] * scalar;
+        for (int i = 0; i < vector.length; i++) {
+            vector[i] *= scalar;
         }
         return this;
     }
 
     // разворот вектора
     public Vector getRotation() {
-        for (int i = 0; i < vectorArray.length; i++) {
-            vectorArray[i] = vectorArray[i] * (-1);
-        }
-        return this;
+        return getMultiplication(-1);
     }
 
     // получение длины вектора
     public double getLength() {
         double length = 0;
 
-        for (double component : vectorArray) {
-            length = length + Math.pow(component, 2);
+        for (double component : vector) {
+            length += Math.pow(component, 2);
         }
         return Math.sqrt(length);
     }
 
     // установка компоненты вектора по индексу
     public Vector setComponent(double component, int index) {
-        vectorArray[index] = component;
+        vector[index] = component;
         return this;
     }
 
     // сложение двух векторов (статический метод)
     public static Vector getSum(Vector vector1, Vector vector2) {
-        int maxLength = Math.max(vector1.getSize(), vector2.getSize());
-        int minLength = Math.min(vector1.getSize(), vector2.getSize());
-        double[] newVector = new double[maxLength];
-
-        for (int i = 0; i < maxLength; i++) {
-            if (i < minLength) {
-                newVector[i] = vector1.vectorArray[i] + vector2.vectorArray[i];
-            } else {
-                if (maxLength != vector1.getSize()) {
-                    newVector[i] = vector2.vectorArray[i];
-                } else {
-                    newVector[i] = vector1.vectorArray[i];
-                }
-            }
-        }
-        return new Vector(maxLength, newVector);
+        Vector temp = new Vector(vector1);
+        return temp.getSum(vector2);
     }
 
     // вычитание двух векторов (статический метод)
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        int maxLength = Math.max(vector1.getSize(), vector2.getSize());
-        int minLength = Math.min(vector1.getSize(), vector2.getSize());
-        double[] newVector = new double[maxLength];
-
-        for (int i = 0; i < maxLength; i++) {
-            if (i < minLength) {
-                newVector[i] = vector1.vectorArray[i] - vector2.vectorArray[i];
-            } else {
-                if (maxLength != vector1.getSize()) {
-                    newVector[i] = vector2.vectorArray[i];
-                } else {
-                    newVector[i] = vector1.vectorArray[i];
-                }
-            }
-        }
-        return new Vector(maxLength, newVector);
+        Vector temp = new Vector(vector1);
+        return temp.getDifference(vector2);
     }
 
     // скалярное произведение векторов
@@ -183,21 +128,21 @@ public class Vector {
         double scalarMultiplication = 0;
 
         for (int i = 0; i < minLength; i++) {
-            scalarMultiplication = scalarMultiplication + vector1.vectorArray[i] * vector2.vectorArray[i];
+            scalarMultiplication += vector1.vector[i] * vector2.vector[i];
         }
         return scalarMultiplication;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Vector)) {
+        if (!(this.getClass().isAssignableFrom(o.getClass()))) {
             return false;
         }
 
         Vector vector = (Vector) o;
-        if(this.vectorArray.length == vector.vectorArray.length) {
-            for (int i = 0; i < vectorArray.length; i++) {
-                if (this.vectorArray[i] != vector.vectorArray[i]) {
+        if (this.vector.length == vector.vector.length) {
+            for (int i = 0; i < this.vector.length; i++) {
+                if (this.vector[i] != vector.vector[i]) {
                     return false;
                 }
             }
@@ -211,7 +156,7 @@ public class Vector {
         final int prime = 31;
         int result = 1;
 
-        for(double element : vectorArray) {
+        for (double element : vector) {
             result = prime * result + (int) element;
         }
         return result;

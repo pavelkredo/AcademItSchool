@@ -4,10 +4,10 @@ import ru.academits.trofimov.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
-        double[] array1 = {1, 2, 3, 4, 5, 6};
-        double[] array2 = {2, 3, 4, 5, 6, 7, 8, 9};
-        Vector vector1 = new Vector(7, array1);
-        Vector vector2 = new Vector(8, array2);
+        double[] array1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        double[] array2 = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        Vector vector1 = new Vector(10, array1);
+        Vector vector2 = new Vector(10, array2);
 
         System.out.println("Размерность вектора: " + vector1.getSize());
         System.out.println("Компоненты вектора: " + vector1.toString());
@@ -29,10 +29,7 @@ public class Main {
         double valueOfMupltiplication = Vector.getMultiplication(vector1, vector2);
         System.out.println("Значение скалярного произведения векторов: " + valueOfMupltiplication);
 
-        Vector vector3 = Vector.getSum(vector1, vector2);
-        System.out.println("Сумма двух векторов: " + vector3);
-
-        vector3 = Vector.getDifference(vector1, vector2);
+        Vector vector3 = Vector.getDifference(vector1, vector2);
         System.out.println("Разность двух векторов: " + vector3);
     }
 }
