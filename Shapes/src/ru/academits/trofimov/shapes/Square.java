@@ -46,6 +46,6 @@ public class Square implements Shape {
 
     @Override
     public int hashCode() {
-        return 31 + (int) side;
+        return Double.hashCode(side);
     }
 }

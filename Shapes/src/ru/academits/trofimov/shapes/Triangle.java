@@ -1,7 +1,12 @@
 package ru.academits.trofimov.shapes;
 
 public class Triangle implements Shape {
-    private double x1, y1, x2, y2, x3, y3;
+    private double x1;
+    private double y1;
+    private double x2;
+    private double y2;
+    private double x3;
+    private double y3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
@@ -12,21 +17,26 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
+    private double getLineLength(double crd1, double crd2, double crd3) {
+        return Math.max(Math.max(crd1, crd2), crd3) - Math.min(Math.min(crd1, crd2), crd3);
+    }
+
     public double getWidth() {
-        return Math.max(Math.max(x1, x2), x3) - Math.min(Math.min(x1, x2), x3);
+        return getLineLength(x1, x2, x3);
     }
 
     public double getHeight() {
-        return Math.max(Math.max(y1, y2), y3) - Math.min(Math.min(y1, y2), y3);
+        return getLineLength(y1, y2, y3);
     }
 
     public double getArea() {
         return 0.5 * getWidth() * getHeight();
     }
 
-    public double[] getSides() {
-        return new double[]{Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2)),
-                Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2)), Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2))};
+    private double[] getSides() {
+        return new double[]{Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
+                Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2)),
+                Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2))};
     }
 
     public double getPerimeter() {
@@ -71,16 +81,7 @@ public class Triangle implements Shape {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + (int) x1;
-        result = prime * result + (int) y1;
-        result = prime * result + (int) x2;
-        result = prime * result + (int) y2;
-        result = prime * result + (int) x3;
-        result = prime * result + (int) y3;
-
-        return result;
+        return Double.hashCode(x1) + Double.hashCode(y1) + Double.hashCode(x2) + Double.hashCode(y2)
+                + Double.hashCode(x3) + Double.hashCode(y3);
     }
 }

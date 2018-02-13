@@ -1,4 +1,6 @@
-package ru.academits.trofimov.shapes;
+package ru.academits.trofimov.main;
+
+import ru.academits.trofimov.shapes.Shape;
 
 import java.util.Comparator;
 

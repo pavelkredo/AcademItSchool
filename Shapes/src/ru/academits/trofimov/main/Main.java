@@ -40,5 +40,7 @@ public class Main {
         } else {
             System.out.println("Фигуры не равны.");
         }
+
+        System.out.println(triangle1.hashCode());
     }
 }
