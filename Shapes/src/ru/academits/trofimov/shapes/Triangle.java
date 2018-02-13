@@ -17,26 +17,18 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double getLineLength(double crd1, double crd2, double crd3) {
-        return Math.max(Math.max(crd1, crd2), crd3) - Math.min(Math.min(crd1, crd2), crd3);
-    }
-
     public double getWidth() {
-        return getLineLength(x1, x2, x3);
+        return Math.max(Math.max(x1, x2), x3) - Math.min(Math.min(x1, x2), x3);
     }
 
     public double getHeight() {
-        return getLineLength(y1, y2, y3);
+        return Math.max(Math.max(y1, y2), y3) - Math.min(Math.min(y1, y2), y3);
     }
 
     public double getArea() {
-        return 0.5 * getWidth() * getHeight();
-    }
-
-    private double[] getSides() {
-        return new double[]{Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
-                Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2)),
-                Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2))};
+        double p = getPerimeter() / 2;
+        double[] sides = getSides();
+        return Math.sqrt(p * (p - sides[0]) * (p - sides[1]) * (p - sides[2]));
     }
 
     public double getPerimeter() {
@@ -47,6 +39,14 @@ public class Triangle implements Shape {
         }
 
         return perimeter;
+    }
+
+    private double getLineLength(double crdX1, double crdY1, double crdX2, double crdY2) {
+        return Math.sqrt(Math.pow(crdX2 - crdX1, 2) + Math.pow(crdY2 - crdY1, 2));
+    }
+
+    private double[] getSides() {
+        return new double[]{getLineLength(x1, y1, x2, y2), getLineLength(x1, y1, x3, y3), getLineLength(x2, y2, x3, y3)};
     }
 
     @Override
