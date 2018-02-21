@@ -41,7 +41,7 @@ public class Triangle implements Shape {
         return perimeter;
     }
 
-    private double getLineLength(double crdX1, double crdY1, double crdX2, double crdY2) {
+    private static double getLineLength(double crdX1, double crdY1, double crdX2, double crdY2) {
         return Math.sqrt(Math.pow(crdX2 - crdX1, 2) + Math.pow(crdY2 - crdY1, 2));
     }
 

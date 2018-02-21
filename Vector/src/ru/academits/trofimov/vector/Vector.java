@@ -33,6 +33,10 @@ public class Vector {
         vector = Arrays.copyOf(array, n);
     }
 
+    public double[] getVector () {
+        return vector;
+    }
+
     // получение размерности вектора
     public int getSize() {
         return vector.length;
