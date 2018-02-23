@@ -37,6 +37,10 @@ public class Vector {
         return vector;
     }
 
+    public void setVector(int index, double number) {
+        vector[index] = number;
+    }
+
     // получение размерности вектора
     public int getSize() {
         return vector.length;
