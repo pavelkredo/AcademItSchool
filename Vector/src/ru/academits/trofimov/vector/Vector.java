@@ -33,9 +33,6 @@ public class Vector {
         vector = Arrays.copyOf(array, n);
     }
 
-    public double[] getVector () {
-        return vector;
-    }
 
     public void setVector(int index, double number) {
         vector[index] = number;
@@ -44,21 +41,6 @@ public class Vector {
     // получение размерности вектора
     public int getSize() {
         return vector.length;
-    }
-
-    // преобразование компонент вектора в строку
-    public String toString() {
-        StringBuilder sb = new StringBuilder("{ ");
-
-        for (int i = 0; i < vector.length; i++) {
-            sb.append(vector[i]);
-            if (i < vector.length - 1) {
-                sb.append(", ");
-            }
-        }
-
-        sb.append(" }");
-        return sb.toString();
     }
 
     // сумма векторов
@@ -112,6 +94,11 @@ public class Vector {
         return Math.sqrt(length);
     }
 
+    // получение компоненты вектора по индексу
+    public double getComponent(int index) {
+        return vector[index];
+    }
+
     // установка компоненты вектора по индексу
     public Vector setComponent(double component, int index) {
         vector[index] = component;
@@ -139,6 +126,21 @@ public class Vector {
             scalarMultiplication += vector1.vector[i] * vector2.vector[i];
         }
         return scalarMultiplication;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{ ");
+
+        for (int i = 0; i < vector.length; i++) {
+            sb.append(vector[i]);
+            if (i < vector.length - 1) {
+                sb.append(", ");
+            }
+        }
+
+        sb.append(" }");
+        return sb.toString();
     }
 
     @Override

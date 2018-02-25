@@ -19,7 +19,7 @@ public class Main {
 
         Matrix matrix3 = new Matrix(matrix1);
 
-        System.out.println("Количество строк матрицы: " + matrix2.getStringsNumber());
+        System.out.println("Количество строк матрицы: " + matrix2.getRowsNumber());
         System.out.println("Количество столбцов матрицы: " + matrix2.getColumnsNumber());
 
         Vector vector4 = matrix3.getVectorString(0);
@@ -43,7 +43,7 @@ public class Main {
         matrix3.getScalarMultiplication(2);
         System.out.println("Умножение на скаляр: " + matrix3.toString());
 
-        System.out.println("Определитель матрицы: " + matrix1.getMatrixDeterminant());
+        System.out.println("Определитель матрицы: " + matrix1.getDeterminant());
 
         Vector vector5 = matrix3.getVectorMultiplication(vector1);
         System.out.println("Умножение матрицы на вектор: " + vector5.toString());
