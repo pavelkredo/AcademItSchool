@@ -23,8 +23,9 @@ public class Main {
         ArrayList<Integer> numbers1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 6, 7, 9, 11));
 
         for (int i = 0; i < numbers1.size(); i++) {
-            while(numbers1.get(i) % 2 == 0) {
+            if (numbers1.get(i) % 2 == 0) {
                 numbers1.remove(i);
+                i--;
             }
         }
 
@@ -34,9 +35,7 @@ public class Main {
         ArrayList<Integer> numbers2 = new ArrayList<>(Arrays.asList(1, 3, 5, 1, 3, 7, 9, 3, 4, 3, 3, 5, 8));
         ArrayList<Integer> newNumbers = new ArrayList<>();
 
-        for (int i = 0; i < numbers2.size(); i++) {
-            int number = numbers2.get(i);
-
+        for (int number : numbers2) {
             if (!newNumbers.contains(number)) {
                 newNumbers.add(number);
             }
