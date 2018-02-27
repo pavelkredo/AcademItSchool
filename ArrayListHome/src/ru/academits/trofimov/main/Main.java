@@ -11,7 +11,7 @@ public class Main {
         // Прочитать в список все строки из файла
         ArrayList<String> lines = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner (new FileInputStream("test.txt"), "windows-1251")) {
+        try (Scanner scanner = new Scanner(new FileInputStream("test.txt"), "windows-1251")) {
             while (scanner.hasNext()) {
                 lines.add(scanner.nextLine());
             }
@@ -20,12 +20,10 @@ public class Main {
         System.out.println(lines);
 
         // Удалить из списка все четные числа
-        ArrayList<Integer> numbers1 = new ArrayList<>(Arrays.asList(1, 2, 4, 6, 7, 9, 11));
+        ArrayList<Integer> numbers1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 6, 7, 9, 11));
 
         for (int i = 0; i < numbers1.size(); i++) {
-            int number = numbers1.get(i);
-
-            if(number % 2 == 0) {
+            while(numbers1.get(i) % 2 == 0) {
                 numbers1.remove(i);
             }
         }
@@ -36,10 +34,10 @@ public class Main {
         ArrayList<Integer> numbers2 = new ArrayList<>(Arrays.asList(1, 3, 5, 1, 3, 7, 9, 3, 4, 3, 3, 5, 8));
         ArrayList<Integer> newNumbers = new ArrayList<>();
 
-        for(int i = 0; i < numbers2.size(); i++) {
+        for (int i = 0; i < numbers2.size(); i++) {
             int number = numbers2.get(i);
 
-            if(numbers2.indexOf(number) == i) {
+            if (!newNumbers.contains(number)) {
                 newNumbers.add(number);
             }
         }
