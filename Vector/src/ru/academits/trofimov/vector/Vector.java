@@ -33,11 +33,6 @@ public class Vector {
         vector = Arrays.copyOf(array, n);
     }
 
-
-    public void setVector(int index, double number) {
-        vector[index] = number;
-    }
-
     // получение размерности вектора
     public int getSize() {
         return vector.length;
@@ -100,9 +95,8 @@ public class Vector {
     }
 
     // установка компоненты вектора по индексу
-    public Vector setComponent(double component, int index) {
+    public void setComponent(int index, double component) {
         vector[index] = component;
-        return this;
     }
 
     // сложение двух векторов (статический метод)

@@ -40,7 +40,7 @@ public class Main {
         matrix3.transpose();
         System.out.println("Транспонирование матрицы: " + matrix3.toString());
 
-        matrix3.getScalarMultiplication(2);
+        matrix3.scalarMultiplication(2);
         System.out.println("Умножение на скаляр: " + matrix3.toString());
 
         System.out.println("Определитель матрицы: " + matrix1.getDeterminant());
