@@ -260,20 +260,20 @@ public class Matrix {
                     "строк второй матрицы");
         }
 
-        double[][] array = new double[matrix1.getRowsNumber()][matrix1.getRowsNumber()];
-
+        Vector[] newVector = new Vector[matrix1.getRowsNumber()];
         for (int i = 0; i < matrix1.getRowsNumber(); i++) {
-            for (int j = 0; j < matrix1.getRowsNumber(); j++) {
+            newVector[i] = new Vector(matrix2.getColumnsNumber());
+
+            for (int j = 0; j < matrix2.getColumnsNumber(); j++) {
                 int sum = 0;
 
                 for (int l = 0; l < matrix1.getColumnsNumber(); l++) {
                     sum += matrix1.rows[i].getComponent(l) * matrix2.rows[l].getComponent(j);
                 }
-
-                array[i][j] = sum;
+                newVector[i].setComponent(j, sum);
             }
         }
-        return new Matrix(array);
+        return new Matrix(newVector);
     }
 
     @Override
