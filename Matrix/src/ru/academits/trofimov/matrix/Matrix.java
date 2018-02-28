@@ -74,7 +74,7 @@ public class Matrix {
     // получение вектора-строки по индексу
     public Vector getVectorString(int index) {
         if (index >= this.getRowsNumber() || index < 0) {
-            throw new ArithmeticException("Индекс должен быть в пределах границ матрицы.");
+            throw new IndexOutOfBoundsException("Индекс должен быть в пределах границ матрицы.");
         }
         return new Vector(rows[index]);
     }
@@ -84,7 +84,7 @@ public class Matrix {
         if (this.getColumnsNumber() != vector.getSize()) {
             throw new ArithmeticException("Задаваемый вектор должен соответствовать длине строки матрицы.");
         } else if (index >= this.getRowsNumber() || index < 0) {
-            throw new ArithmeticException("Индекс должен быть в пределах границ матрицы.");
+            throw new IndexOutOfBoundsException("Индекс должен быть в пределах границ матрицы.");
         }
         rows[index] = new Vector(vector);
     }
@@ -92,7 +92,7 @@ public class Matrix {
     // получение вектора-столбца по индексу
     public Vector getVectorColumn(int index) {
         if (index >= this.getColumnsNumber() || index < 0) {
-            throw new ArithmeticException("Индекс должен быть в пределах границ матрицы.");
+            throw new IndexOutOfBoundsException("Индекс должен быть в пределах границ матрицы.");
         }
 
         double[] vector = new double[this.getRowsNumber()];
@@ -108,7 +108,7 @@ public class Matrix {
         if (this.getRowsNumber() != vector.getSize()) {
             throw new ArithmeticException("Задаваемый вектор должен соответствовать количеству строк матрицы.");
         } else if (index >= this.getColumnsNumber() || index < 0) {
-            throw new ArithmeticException("Индекс должен быть в пределах границ матрицы.");
+            throw new IndexOutOfBoundsException("Индекс должен быть в пределах границ матрицы.");
         }
 
         for (int i = 0; i < this.getRowsNumber(); i++) {
@@ -140,35 +140,35 @@ public class Matrix {
     }
 
     // получение определителя матрицы
-    private double calculateDeterminant(Vector[] lines) {
-        if (lines.length != lines[0].getSize()) {
+    private double calculateDeterminant(Vector[] rows) {
+        if (rows.length != rows[0].getSize()) {
             throw new IllegalArgumentException("Число строк матрицы должно быть равно числу столбцов.");
         }
 
-        if (lines.length == 1) {
-            return lines[0].getComponent(0);
-        } else if (lines.length == 2) {
-            return lines[0].getComponent(0) * lines[1].getComponent(1)
-                    - lines[0].getComponent(1) * lines[1].getComponent(0);
+        if (rows.length == 1) {
+            return rows[0].getComponent(0);
+        } else if (rows.length == 2) {
+            return rows[0].getComponent(0) * rows[1].getComponent(1)
+                    - rows[0].getComponent(1) * rows[1].getComponent(0);
         }
 
-        Vector[] array = new Vector[lines.length - 1];
+        Vector[] array = new Vector[rows.length - 1];
         for (int i = 0; i < array.length; i++) {
-            array[i] = new Vector(lines.length - 1);
+            array[i] = new Vector(rows.length - 1);
         }
 
         double sum = 0;
         int exception = 0;
 
-        for (int i = 0; i < lines.length; i++) {
+        for (int i = 0; i < rows.length; i++) {
             int x = 0;
 
-            for (int j = 0; j < lines.length; j++) {
+            for (int j = 0; j < rows.length; j++) {
                 if (j != exception) {
                     int y = 0;
 
-                    for (int k = 1; k < lines.length; k++) {
-                        array[x].setComponent(y, lines[j].getComponent(k));
+                    for (int k = 1; k < rows.length; k++) {
+                        array[x].setComponent(y, rows[j].getComponent(k));
                         y++;
                     }
 
@@ -176,7 +176,7 @@ public class Matrix {
                 }
             }
 
-            sum += Math.pow(-1, i) * lines[i].getComponent(0) * calculateDeterminant(array);
+            sum += Math.pow(-1, i) * rows[i].getComponent(0) * calculateDeterminant(array);
             exception++;
         }
         return sum;
@@ -192,7 +192,7 @@ public class Matrix {
             throw new ArithmeticException("Число столбцов в матрице должно быть равно количеству элементов вектора.");
         }
 
-        Vector newVector = new Vector(vector.getSize());
+        Vector newVector = new Vector(this.getRowsNumber());
         for (int i = 0; i < this.getRowsNumber(); i++) {
             double sum = 0;
 
@@ -262,11 +262,11 @@ public class Matrix {
 
         double[][] array = new double[matrix1.getRowsNumber()][matrix1.getRowsNumber()];
 
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
+        for (int i = 0; i < matrix1.getRowsNumber(); i++) {
+            for (int j = 0; j < matrix1.getRowsNumber(); j++) {
                 int sum = 0;
 
-                for (int l = 0; l < array.length; l++) {
+                for (int l = 0; l < matrix1.getColumnsNumber(); l++) {
                     sum += matrix1.rows[i].getComponent(l) * matrix2.rows[l].getComponent(j);
                 }
 
