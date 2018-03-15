@@ -140,7 +140,7 @@ public class SinglyLinkedList<T> {
             if (p == head) {
                 p.setNext(null);
                 temp1 = p;
-            } else{
+            } else {
                 p.setNext(temp1);
                 temp1 = p;
             }
@@ -150,7 +150,7 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        if(size == 0) {
+        if (size == 0) {
             throw new NullPointerException("Список является пустым. Копирование невозможно.");
         }
 
@@ -160,7 +160,7 @@ public class SinglyLinkedList<T> {
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             ListItem<T> next = null;
 
-            if(p.getNext() != null) {
+            if (p.getNext() != null) {
                 next = new ListItem<>(p.getNext().getData(), p.getNext().getNext());
             }
             p = new ListItem<>(p.getData(), next);
