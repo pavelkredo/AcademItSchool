@@ -16,7 +16,9 @@ public class Main {
         System.out.println("Значение разности двух векторов: " + vector1.getDifference(vector2));
 
         System.out.println("Разворот вектора: " + vector2.getRotation());
-        System.out.println("Установка компоненты по индексу: " + vector2.setComponent(2, 2));
+
+        vector2.setComponent(2,2);
+        System.out.println("Установка компоненты по индексу: " + vector2.toString());
 
         System.out.println("Длина вектора: " + vector1.getLength());
 
