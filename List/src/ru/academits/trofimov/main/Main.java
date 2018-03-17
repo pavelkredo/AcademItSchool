@@ -13,13 +13,15 @@ public class Main {
 
         SinglyLinkedList<Integer> head2 = head1.copy();
         head1.setElement(1, 15);
-        System.out.println(head2.getElement(0));
+        System.out.println(head2.getElement(1));
         System.out.println(head2.getSize());
 
         head2.rotate();
         System.out.println(head2.getElement(0));
 
         head2.insertElementAtStart(7);
-        System.out.println(head2.getElement(5));
+
+        head1.insertElementAtIndex(1, 20);
+        System.out.println(head1.getElement(4));
     }
 }

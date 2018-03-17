@@ -1,5 +1,7 @@
 package ru.academits.trofimov.list;
 
+import java.util.List;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int size;
@@ -7,8 +9,9 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList() {
     }
 
-    private SinglyLinkedList(ListItem<T> head) {
+    private SinglyLinkedList(ListItem<T> head, int size) {
         this.head = head;
+        this.size = size;
     }
 
     public void addElementAtEnd(T element) {
@@ -16,13 +19,9 @@ public class SinglyLinkedList<T> {
             head = new ListItem<>(element);
             size++;
         } else {
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                if (p.getNext() == null) {
-                    p.setNext(new ListItem<>(element));
-                    size++;
-                    break;
-                }
-            }
+            ListItem<T> unit = getUnit(size - 1);
+            unit.setNext(new ListItem<>(element));
+            size++;
         }
     }
 
@@ -31,87 +30,73 @@ public class SinglyLinkedList<T> {
     }
 
     public T getFirstElement() {
+        if(size == 0) {
+            throw new IndexOutOfBoundsException("Невозможно получить первый элемент. Список пустой.");
+        }
         return head.getData();
     }
 
-    public T getElement(int index) {
+    private ListItem<T> getUnit(int index) {
+        if(index >= size) {
+            throw new IndexOutOfBoundsException("Индекс выходит за пределы списка.");
+        }
+
         int i = 0;
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             if (index == i) {
-                return p.getData();
+                return p;
             }
             i++;
         }
         return null;
+    }
+
+    public T getElement(int index) {
+        return getUnit(index).getData();
     }
 
     public T setElement(int index, T element) {
-        int i = 0;
-        T oldValue;
-
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (index == i) {
-                oldValue = p.getData();
-                p.setData(element);
-                return oldValue;
-            }
-            i++;
-        }
-        return null;
+        ListItem<T> unit = getUnit(index);
+        T oldValue = unit.getData();
+        unit.setData(element);
+        return oldValue;
     }
 
     public T removeElement(int index) {
-        int i = 0;
-        T removedElement;
-        ListItem<T> temp = null;
+        ListItem<T> temp = getUnit(index - 1);
+        ListItem<T> unit = getUnit(index);
 
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (index == i + 1) {
-                temp = p;
-            }
+        T removedElement = unit.getData();
+        temp.setNext(unit.getNext());
+        unit.setData(null);
+        unit.setNext(null);
+        size--;
 
-            if (index == i) {
-                removedElement = p.getData();
-                temp.setNext(p.getNext());
-                p.setData(null);
-                p.setNext(null);
-                size--;
-                return removedElement;
-            }
-            i++;
-        }
-        return null;
+        return removedElement;
     }
 
     public void insertElementAtStart(T element) {
         head = new ListItem<>(element, head);
+        size++;
     }
 
     public void insertElementAtIndex(int index, T element) {
-        int i = 0;
-
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (index == i + 1) {
-                ListItem<T> newElement = new ListItem<>(element, p.getNext());
-                p.setNext(newElement);
-            }
-            i++;
-        }
+        ListItem<T> unit = getUnit(index - 1);
+        ListItem<T> newElement = new ListItem<>(element, unit.getNext());
+        unit.setNext(newElement);
+        size++;
     }
 
     public boolean removeByElement(T element) {
-        if (element == null) {
-            throw new NullPointerException("Передаваемый элемент не должен быть пустой ссылкой.");
-        }
-
         ListItem<T> temp = head;
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (p.getData().equals(element)) {
+            if (p.getData() == element || p.getData().equals(element)) {
                 temp.setNext(p.getNext());
                 p.setData(null);
                 p.setNext(null);
+                size--;
                 return true;
             }
 
@@ -126,6 +111,7 @@ public class SinglyLinkedList<T> {
         head.setData(null);
         head.setNext(null);
         head = temp;
+        size--;
 
         return removedElement;
     }
@@ -150,26 +136,17 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        if (size == 0) {
-            throw new NullPointerException("Список является пустым. Копирование невозможно.");
-        }
-
-        int i = 0;
         ListItem<T> tempHead = null;
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            ListItem<T> next = null;
-
             if (p.getNext() != null) {
-                next = new ListItem<>(p.getNext().getData(), p.getNext().getNext());
+                p = new ListItem<>(p.getData(), new ListItem<>(p.getNext().getData(), p.getNext().getNext()));
             }
-            p = new ListItem<>(p.getData(), next);
 
-            if (i < 1) {
+            if (p.getData() == head.getData()) {
                 tempHead = p;
-                i++;
             }
         }
-        return new SinglyLinkedList<>(tempHead);
+        return new SinglyLinkedList<>(tempHead, size);
     }
 }
