@@ -53,9 +53,9 @@ public class ArrayList<T>{
             for (int i = 0; i < temp.length; i++) {
                 if (i == index) {
                     temp[i] = element;
+                } else {
+                    temp[i] = elements[i];
                 }
-
-                temp[i] = element;
             }
 
             elements = temp;
@@ -64,8 +64,21 @@ public class ArrayList<T>{
 
     public boolean addAll(Collection<? extends T> c) {
         Iterator<?> iterator = c.iterator();
+        boolean isInsert = false;
 
         while (iterator.hasNext()) {
+            elements[size] = (T) iterator.next();
+            size++;
+            isInsert = true;
+        }
+        return isInsert;
+    }
+
+    public boolean addAll(int index, Collection<? extends T> c) {
+        Iterator<?> iterator = c.iterator();
+        T[] temp = (T[]) new Object[size + c.size()];
+
+        for(int i = 0; i < size + c.size(); i++) {
             elements[size] = (T) iterator.next();
             size++;
         }

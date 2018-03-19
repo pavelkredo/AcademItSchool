@@ -12,6 +12,12 @@ public class Main {
         head1.addElementAtEnd(64);
 
         SinglyLinkedList<Integer> head2 = head1.copy();
+        head1.setElement(7, 15);
+        System.out.println(head2.getElement(6));
+
+        head1.removeElement(6);
+
+        /* SinglyLinkedList<Integer> head2 = head1.copy();
         head1.setElement(1, 15);
         System.out.println(head2.getElement(1));
         System.out.println(head2.getSize());
@@ -22,6 +28,6 @@ public class Main {
         head2.insertElementAtStart(7);
 
         head1.insertElementAtIndex(1, 20);
-        System.out.println(head1.getElement(4));
+        System.out.println(head1.getElement(4)); */
     }
 }

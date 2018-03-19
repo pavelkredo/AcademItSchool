@@ -1,6 +1,7 @@
 package ru.academits.trofimov.list;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
@@ -30,17 +31,16 @@ public class SinglyLinkedList<T> {
     }
 
     public T getFirstElement() {
-        if(size == 0) {
+        if (size == 0) {
             throw new IndexOutOfBoundsException("Невозможно получить первый элемент. Список пустой.");
         }
         return head.getData();
     }
 
     private ListItem<T> getUnit(int index) {
-        if(index >= size) {
-            throw new IndexOutOfBoundsException("Индекс выходит за пределы списка.");
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Невозможно получить узел. Индекс вне границ списка.");
         }
-
         int i = 0;
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
@@ -49,7 +49,7 @@ public class SinglyLinkedList<T> {
             }
             i++;
         }
-        return null;
+        throw new NullPointerException("Невозможно получить элемент. Индекс вне границ списка.");
     }
 
     public T getElement(int index) {
@@ -63,9 +63,34 @@ public class SinglyLinkedList<T> {
         return oldValue;
     }
 
+    public void insertElementAtStart(T element) {
+        head = new ListItem<>(element, head);
+        size++;
+    }
+
+    public void insertElementAtIndex(int index, T element) {
+        if (index == 0) {
+            insertElementAtStart(element);
+            return;
+        } else if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Невозможно вставить элемент. Индекс вне границ списка.");
+        }
+
+        ListItem<T> unit = getUnit(index - 1);
+        ListItem<T> newElement = new ListItem<>(element, unit.getNext());
+        unit.setNext(newElement);
+        size++;
+    }
+
     public T removeElement(int index) {
+        if (index == 0) {
+            return removeFirstElement();
+        } else if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Невозможно удалить элемент. Индекс вне границ списка.");
+        }
+
         ListItem<T> temp = getUnit(index - 1);
-        ListItem<T> unit = getUnit(index);
+        ListItem<T> unit = temp.getNext();
 
         T removedElement = unit.getData();
         temp.setNext(unit.getNext());
@@ -76,23 +101,11 @@ public class SinglyLinkedList<T> {
         return removedElement;
     }
 
-    public void insertElementAtStart(T element) {
-        head = new ListItem<>(element, head);
-        size++;
-    }
-
-    public void insertElementAtIndex(int index, T element) {
-        ListItem<T> unit = getUnit(index - 1);
-        ListItem<T> newElement = new ListItem<>(element, unit.getNext());
-        unit.setNext(newElement);
-        size++;
-    }
-
     public boolean removeByElement(T element) {
         ListItem<T> temp = head;
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (p.getData() == element || p.getData().equals(element)) {
+            if (Objects.equals(p.getData(), element)) {
                 temp.setNext(p.getNext());
                 p.setData(null);
                 p.setNext(null);
@@ -106,6 +119,10 @@ public class SinglyLinkedList<T> {
     }
 
     public T removeFirstElement() {
+        if (size == 0) {
+            throw new NullPointerException("Невозможно удалить элемент. Список пустой.");
+        }
+
         T removedElement = head.getData();
         ListItem<T> temp = head.getNext();
         head.setData(null);
@@ -137,14 +154,14 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList<T> copy() {
         ListItem<T> tempHead = null;
+        boolean isHead = true;
 
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (p.getNext() != null) {
-                p = new ListItem<>(p.getData(), new ListItem<>(p.getNext().getData(), p.getNext().getNext()));
-            }
+        for (ListItem<T> p = head; p.getNext() != null; p = p.getNext()) {
+            p = new ListItem<>(p.getData(), new ListItem<>(p.getNext().getData(), p.getNext().getNext()));
 
-            if (p.getData() == head.getData()) {
+            if (isHead) {
                 tempHead = p;
+                isHead = false;
             }
         }
         return new SinglyLinkedList<>(tempHead, size);
