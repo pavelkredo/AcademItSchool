@@ -154,9 +154,16 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList<T> copy() {
         SinglyLinkedList<T> newHead = new SinglyLinkedList<>();
+        ListItem<T> temp;
 
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            newHead.addElementAtEnd(p.getData());
+        for (ListItem<T> p = head, prev = head; p != null; p = p.getNext(), prev = temp) {
+            temp = new ListItem<>(p.getData());
+
+            if(p == head) {
+                newHead = new SinglyLinkedList<>(temp, size);
+            } else {
+                prev.setNext(temp);
+            }
         }
         return newHead;
     }
