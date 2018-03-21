@@ -12,10 +12,8 @@ public class Main {
         head1.addElementAtEnd(64);
 
         SinglyLinkedList<Integer> head2 = head1.copy();
-        head1.setElement(7, 15);
-        System.out.println(head2.getElement(6));
-
-        head1.removeElement(6);
+        head1.setElement(4, 15);
+        System.out.println(head2.getElement(4));
 
         /* SinglyLinkedList<Integer> head2 = head1.copy();
         head1.setElement(1, 15);

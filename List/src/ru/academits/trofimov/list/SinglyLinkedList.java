@@ -153,17 +153,11 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        ListItem<T> tempHead = null;
-        boolean isHead = true;
+        SinglyLinkedList<T> newHead = new SinglyLinkedList<>();
 
-        for (ListItem<T> p = head; p.getNext() != null; p = p.getNext()) {
-            p = new ListItem<>(p.getData(), new ListItem<>(p.getNext().getData(), p.getNext().getNext()));
-
-            if (isHead) {
-                tempHead = p;
-                isHead = false;
-            }
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            newHead.addElementAtEnd(p.getData());
         }
-        return new SinglyLinkedList<>(tempHead, size);
+        return newHead;
     }
 }
